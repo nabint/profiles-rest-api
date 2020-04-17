@@ -7,26 +7,26 @@ from django.contrib.auth.models import BaseUserManager
 class UserProfileManager(BaseUserManager):
     """Manager For User Profiles"""
 
-    def create_user(self,email,name,password=None):
+    def create_user(self, email, name, password=None):
         """Create a new User Profile"""
         if not email:
             raise ValueError("User must have an email address")
 
-            email.self.normalize_email(email)#normailize second half of email to lower case as it's not case sensitve
-            user = self.model(email=email,name=name)
+        email=self.normalize_email(email)#normailize second half of email to lower case as it's not case sensitve
+        user = self.model(email=email,name=name)
 
-            user.set_password(password)
-            user.save(using=self._db)
+        user.set_password(password)
+        user.save(using=self._db)
 
-            return user
+        return user
 
     def create_superuser(self,email,name,password):
         """Create and save a new superuser with given details"""
         user=self.create_user(email,name,password)
 
-        user.is_superuser=True #is_super method is iin PermissionsMixin
-        user.is_staff=True
-        user.save(using=self._db)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save(using = self._db)
 
         return user
 

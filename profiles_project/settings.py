@@ -122,4 +122,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'profiles_api.UserProfile' #makes userprofile as a default authetication and userregistration in this model
+AUTH_USER_MODEL = 'profiles_api.UserProfile'#makes userprofile as a default authetication and userregistration in this model
