@@ -1,8 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
 
+from rest_framework import viewsets
 from profiles_api import serializers
+from profiles_api import models
+from profiles_api import permissions
 
 class HelloApiView(APIView):
     """Test API View"""
@@ -46,3 +50,37 @@ class HelloApiView(APIView):
     def delete(self,request,pk=None):
         """Deletes an object"""
         return Response({'method':'DELETE'})
+
+class HelloViewSets(viewsets.ViewSet):
+    """Test API Viewsets"""
+    def list(self, request):
+        """Return a hello message"""
+        a_viewsets=[
+            'Uses actions (list,create,retrieve,update,partial_update)',
+            'Automaticaly maps to URLs using Routers',
+            'Provides more functionality with less code'
+        ]
+
+        return Response({'message':'Hello!','a_viewsets':a_viewsets})
+
+    def retrieve(self,request,pk=None):
+        """Handles Getting Object by its ID"""
+        return Response({'http_method':"GET"})
+
+    def update(self,request,pk=None):
+        """Handles Updating an object"""
+        return Response({'HTTP_method':'PUT'})
+
+    def partial_update(self,request,pk=None):
+        """Handles updating a part of object"""
+        return Response({'http_method':'Patch'})
+    def destroy(self,request,pk=None):
+        """Handles destroying an object"""
+        return Response({"Http_method":"DELETE"})
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Handle creating and updating profiels"""
+    serializer_class = serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()
+    authentication_classes=(TokenAuthentication,)
+    permission_classes = (permissions.UpdateOwnProfile,)
